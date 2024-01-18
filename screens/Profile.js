@@ -105,7 +105,6 @@ const ProfileScreen = (props) => {
     console.log("Logout button pressed");
     await AsyncStorage.clear();
     handleDiscard();
-    //props.navigation.navigate("Onboarding");
     props.navigation.reset({
       index: 0,
       routes: [{ name: "Onboarding" }],
@@ -199,7 +198,6 @@ const ProfileScreen = (props) => {
       </SafeAreaView>
     );
   }
-
   /* 
   Notes: 
   masked text input takes mask with syntax:
@@ -219,7 +217,7 @@ const ProfileScreen = (props) => {
           style={({ pressed }) => {
             return [
               styles.avatarButton,
-              pressed && { opacity: 0.8, backgroundColor: "lightgreen" },
+              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
             ];
           }}
           onPress={() => pickImage()}
@@ -231,7 +229,7 @@ const ProfileScreen = (props) => {
           style={({ pressed }) => {
             return [
               styles.avatarButton,
-              pressed && { opacity: 0.8, backgroundColor: "lightgreen" },
+              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
             ];
           }}
           onPress={() => setAvatarImage(null)}
@@ -279,48 +277,63 @@ const ProfileScreen = (props) => {
         )}
         keyboardType="numeric"
       />
-      <View style={styles.checkBoxContainer}>
+      <Pressable
+        style={styles.checkBoxContainer}
+        onPress={() => setEmailNewsletter(!emailNewsletter)}
+      >
         <Checkbox
           value={emailNewsletter}
           onValueChange={setEmailNewsletter}
           style={styles.checkbox}
         />
         <Text style={styles.inputTitle}>NewsLetter</Text>
-      </View>
+      </Pressable>
 
-      <View style={styles.checkBoxContainer}>
+      <Pressable
+        style={styles.checkBoxContainer}
+        onPress={() => setEmailOrderStatus(!emailOrderStatus)}
+      >
         <Checkbox
           value={emailOrderStatus}
           onValueChange={setEmailOrderStatus}
           style={styles.checkbox}
         />
         <Text style={styles.inputTitle}>Order Statuses</Text>
-      </View>
+      </Pressable>
 
-      <View style={styles.checkBoxContainer}>
+      <Pressable
+        style={styles.checkBoxContainer}
+        onPress={() => setEmailPasswordChanges(!emailPasswordChanges)}
+      >
         <Checkbox
           value={emailPasswordChanges}
           onValueChange={setEmailPasswordChanges}
           style={styles.checkbox}
         />
         <Text style={styles.inputTitle}>Password Changes</Text>
-      </View>
+      </Pressable>
 
-      <View style={styles.checkBoxContainer}>
+      <Pressable
+        style={styles.checkBoxContainer}
+        onPress={() => setEmailSpecialOffers(!emailSpecialOffers)}
+      >
         <Checkbox
           value={emailSpecialOffers}
           onValueChange={setEmailSpecialOffers}
           style={styles.checkbox}
         />
         <Text style={styles.inputTitle}>Special Offers</Text>
-      </View>
+      </Pressable>
 
       <Pressable
         disabled={false}
         style={({ pressed }) => {
           return [
             styles.logoutButton,
-            pressed && { opacity: 0.8, backgroundColor: "orange" },
+            pressed && {
+              opacity: 0.8,
+              backgroundColor: llColors.primary2Shade1,
+            },
           ];
         }}
         onPress={handleLogout}
@@ -334,7 +347,7 @@ const ProfileScreen = (props) => {
           style={({ pressed }) => {
             return [
               styles.saveButton,
-              pressed && { opacity: 0.8, backgroundColor: "lightgreen" },
+              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
             ];
           }}
           onPress={handleDiscard}
@@ -344,9 +357,12 @@ const ProfileScreen = (props) => {
         <Pressable
           disabled={false}
           style={({ pressed }) => {
+            let errs = validateAll();
+
             return [
               styles.saveButton,
-              pressed && { opacity: 0.8, backgroundColor: "lightgreen" },
+              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
+              errs.length > 0 && { backgroundColor: llColors.disabled },
             ];
           }}
           onPress={handleSave}
@@ -393,9 +409,18 @@ const styles = StyleSheet.create({
     color: "red",
   },
   checkBoxContainer: {
-    padding: 10,
+    flex: 1,
+    padding: 0,
     marginLeft: 20,
+    width: "40%",
     flexDirection: "row",
+  },
+  checkbox: {
+    alignSelf: "center",
+    shadowOffset: { width: -1, height: 1 },
+    shadowRadius: 1,
+    shadowColor: "black",
+    shadowOpacity: 0.2,
   },
   logoutButton: {
     height: 50,
@@ -403,6 +428,10 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 8,
+    shadowOffset: { width: -1, height: 1 },
+    shadowRadius: 8,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
     margin: 10,
     marginTop: 20,
     alignItems: "center",
@@ -425,6 +454,10 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 8,
+    shadowOffset: { width: -1, height: 1 },
+    shadowRadius: 8,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
     margin: 10,
     alignItems: "center",
     backgroundColor: llColors.primary1,
@@ -442,7 +475,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     padding: 10,
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 30,
     flex: 1,
     flexDirection: "row",
     padding: "auto",
@@ -453,6 +486,10 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 8,
+    shadowOffset: { width: -1, height: 1 },
+    shadowRadius: 8,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
     margin: 10,
     alignItems: "center",
     backgroundColor: llColors.primary1,
@@ -464,9 +501,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   avPlaceHolderText: {
-    color: llColors.secondary3,
+    color: llColors.primary1,
     fontWeight: "bold",
     fontSize: 24,
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 1,
+    textShadowColor: "black",
   },
   avImageFrame: {
     height: 60,
@@ -476,7 +516,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderColor: llColors.primary1,
-    backgroundColor: "blue",
+    backgroundColor: llColors.primary3,
   },
   avImage: {
     height: 60,

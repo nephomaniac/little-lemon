@@ -74,7 +74,11 @@ const OnBoardingScreen = (props) => {
   const handleButton = () => {
     console.log("button pressed");
     storeValues();
-    props.navigation.navigate("Profile");
+    // reset nav and set to Home screen
+    props.navigation.reset({
+      index: 0,
+      routes: [{ name: "Home" }],
+    });
   };
 
   return (
@@ -108,8 +112,11 @@ const OnBoardingScreen = (props) => {
           style={({ pressed }) => {
             return [
               styles.buttonNext,
-              pressed && { opacity: 0.8, backgroundColor: "lightgreen" },
-              buttonDisabled && { backgroundColor: "lightgrey" },
+              pressed && {
+                opacity: 0.8,
+                backgroundColor: llColors.primary2D1,
+              },
+              buttonDisabled && { backgroundColor: llColors.disabled },
             ];
           }}
           onPress={handleButton}
@@ -131,7 +138,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "lightgrey",
+    backgroundColor: llColors.secondary3,
   },
   logoImage: {
     width: "80%",
@@ -139,7 +146,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   inputsContainer: {
-    backgroundColor: "grey",
+    backgroundColor: llColors.primary1,
     flex: 0.8,
     alignItems: "center",
   },
@@ -149,10 +156,18 @@ const styles = StyleSheet.create({
     fontSize: 32,
     marginTop: 40,
     marginBottom: 60,
+    color: llColors.primary2,
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    textShadowColor: "black",
   },
   inputTitle: {
     fontSize: 32,
     marginTop: 40,
+    color: llColors.primary2,
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    textShadowColor: "black",
   },
   inputTextError: {
     fontSize: 16,
@@ -171,7 +186,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0.2,
-    backgroundColor: "lightgrey",
+    //backgroundColor: "lightgrey",
+    backgroundColor: llColors.secondary3,
     alignItems: "flex-end",
     justifyContent: "center",
   },
@@ -181,9 +197,13 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 8,
+    shadowOffset: { width: -1, height: 1 },
+    shadowRadius: 8,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
     margin: 40,
     alignItems: "center",
-    backgroundColor: "green",
+    backgroundColor: llColors.primary2,
     justifyContent: "center",
   },
   buttonText: {
