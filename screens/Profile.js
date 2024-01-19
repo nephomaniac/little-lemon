@@ -232,7 +232,7 @@ const ProfileScreen = (props) => {
               pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
             ];
           }}
-          onPress={() => setAvatarImage(null)}
+          onPress={() => setAvatarImageURI(null)}
         >
           <Text style={styles.avatarButtonText}>Remove</Text>
         </Pressable>

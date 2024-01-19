@@ -81,10 +81,7 @@ export const Header = (props) => {
         <Pressable
           disabled={false}
           style={({ pressed }) => {
-            return [
-              styles.avatarButton,
-              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
-            ];
+            return [styles.avatarButton, pressed && { opacity: 0.6 }];
           }}
           onPress={() => props.navigation.navigate("Profile")}
         >
@@ -97,9 +94,10 @@ export const Header = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.1,
+    height: "10%",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   header: {
     flex: 1,
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     //justifyContent: "auto",
-    backgroundColor: llColors.secondary3,
+    backgroundColor: llColors.secondary2,
   },
   avPlaceHolderText: {
     color: llColors.primary1,
@@ -124,9 +122,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: "10",
-    borderColor: llColors.primary1,
-    backgroundColor: llColors.primary3,
+    alignSelf: "flex-end",
+    //marginRight: 10,
+    borderColor: "black",
+    backgroundColor: llColors.secondary3,
   },
   avImage: {
     height: 60,
@@ -137,6 +136,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "80%",
     resizeMode: "contain",
+    alignSelf: "center",
   },
 });
 
