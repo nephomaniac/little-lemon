@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { llColors } from "../littleLemonUtils.js";
 import Header from "../components/Header.js";
+import Menu from "../components/Menu.js";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const HomeScreen = (props) => {
@@ -46,11 +47,11 @@ const HomeScreen = (props) => {
             }}
             onPress={() => console.log("search icon pressed")}
           >
-            <Ionicons name="search" size={30} color="black" />
+            <Ionicons name="search" size={20} color="black" />
           </Pressable>
         </View>
       </View>
-      <Text style={styles.deliveryText}>ORDER FOR DELIVERY</Text>
+      <Text style={styles.deliveryText}>ORDER FOR DELIVERY!</Text>
       <View style={styles.categoryContainer}>
         <Pressable style={styles.categoryButton}>
           <Text style={styles.categoryButtonText}>Starters</Text>
@@ -65,6 +66,7 @@ const HomeScreen = (props) => {
           <Text style={styles.categoryButtonText}>Drinks</Text>
         </Pressable>
       </View>
+      <Menu style={{ flex: 1 }} />
     </SafeAreaView>
   );
 };
@@ -121,8 +123,8 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     backgroundColor: llColors.secondary3,
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -155,7 +157,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     backgroundColor: llColors.secondary3,
   },
-  categoryButtonText: { fontSize: 16, fontWeight: "bold", color: "black" },
+  categoryButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: llColors.primary1,
+  },
 });
 
 export default HomeScreen;
