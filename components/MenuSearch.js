@@ -1,6 +1,14 @@
 import { React, useState, useEffect } from "react";
-import { View, StyleSheet, Text, TextInput, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Menu from "../components/Menu.js";
 import { llColors } from "../littleLemonUtils.js";
 
 export const MenuSearchInput = (props) => {
@@ -41,25 +49,81 @@ export const MenuSearchInput = (props) => {
   );
 };
 
-export const MenuSearch = (props) => {
+export const CategoryButton = (props) => {
+  const [selected, setSelected] = useState(false);
+
+  useEffect(() => {
+    props.onPress(props.category, selected);
+  }, [selected]);
+
   return (
-    <View>
-      <MenuSearchInput queryStringCallback={props.queryStringCallback} />
+    <Pressable
+      style={() => {
+        return [
+          styles.categoryButton,
+          selected && styles.categoryButtonSelected,
+        ];
+      }}
+      onPress={() => {
+        setSelected(!selected);
+      }}
+    >
+      <Text
+        style={[
+          styles.categoryButtonText,
+          selected && styles.categoryButtonTextSelected,
+        ]}
+      >
+        {props.category}
+      </Text>
+    </Pressable>
+  );
+};
+
+export const MenuFilters = (props) => {
+  const [nameFilter, setNameFilter] = useState([]);
+  const [catFilters, setCatFilters] = useState([]);
+
+  const setFilterEnabled = (category, enabled) => {
+    category = category.toLowerCase();
+    console.log("setFilterEnabled(" + category + ", " + enabled + ")");
+    if (!enabled) {
+      setCatFilters(catFilters.filter((item) => item !== category));
+    } else {
+      if (!(category in catFilters)) {
+        setCatFilters([...catFilters, category]);
+      }
+    }
+  };
+
+  /*
+  useEffect(() => {
+    if (props.queryStringCallback) {
+      props.queryStringCallback(filters);
+    }
+  }, [filters]);
+*/
+  return (
+    <View style={{ width: "100%", flex: 1 }}>
+      <MenuSearchInput queryStringCallback={setNameFilter} />
       <Text style={styles.deliveryText}>ORDER FOR DELIVERY!</Text>
-      <View style={styles.categoryContainer}>
-        <Pressable style={styles.categoryButton}>
-          <Text style={styles.categoryButtonText}>Starters</Text>
-        </Pressable>
-        <Pressable style={styles.categoryButton}>
-          <Text style={styles.categoryButtonText}>Mains</Text>
-        </Pressable>
-        <Pressable style={styles.categoryButton}>
-          <Text style={styles.categoryButtonText}>Deserts</Text>
-        </Pressable>
-        <Pressable style={styles.categoryButton}>
-          <Text style={styles.categoryButtonText}>Drinks</Text>
-        </Pressable>
+      <View
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+          flexDirection: "row",
+          height: 60,
+        }}
+      >
+        <ScrollView horizontal={true} style={styles.categoryContainer}>
+          <CategoryButton category="Starters" onPress={setFilterEnabled} />
+          <CategoryButton category="Mains" onPress={setFilterEnabled} />
+          <CategoryButton category="Deserts" onPress={setFilterEnabled} />
+          <CategoryButton category="Drinks" onPress={setFilterEnabled} />
+          <CategoryButton category="Specials" onPress={setFilterEnabled} />
+        </ScrollView>
       </View>
+      <Menu categories={catFilters} nameFilter={nameFilter} />
     </View>
   );
 };
@@ -93,16 +157,21 @@ const styles = StyleSheet.create({
   deliveryText: {
     fontSize: 24,
     fontWeight: "bold",
-    margin: 10,
+    margin: 5,
     alignSelf: "flex-start",
   },
-  categoryContainer: { flexDirection: "row" },
+  categoryContainer: {
+    flexDirection: "row",
+    //borderBottomWidth: 1,
+  },
   categoryButton: {
+    flex: 1,
     height: 40,
-    width: "20%",
+    width: 90,
     alignItems: "center",
     justifyContent: "center",
-    margin: 10,
+    margin: 5,
+    marginBottom: 10,
     borderWidth: 1,
     borderRadius: 8,
     shadowOffset: { width: -1, height: 2 },
@@ -111,11 +180,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     backgroundColor: llColors.secondary3,
   },
+  categoryButtonSelected: {
+    backgroundColor: llColors.primary1,
+  },
   categoryButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     color: llColors.primary1,
   },
+  categoryButtonTextSelected: {
+    color: llColors.secondary3,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
 
-export default MenuSearch;
+export default MenuFilters;

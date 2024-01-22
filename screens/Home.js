@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { llColors } from "../littleLemonUtils.js";
 import Header from "../components/Header.js";
-import Menu from "../components/Menu.js";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MenuFilters from "../components/MenuSearch.js";
 
 const HomeScreen = (props) => {
   return (
@@ -21,7 +21,6 @@ const HomeScreen = (props) => {
       <View style={styles.introContainer}>
         <View>
           <Text style={styles.introText1}>Little Lemon</Text>
-
           <View style={styles.introInfoContainer}>
             <View style={{ flex: 0.8 }}>
               <Text style={styles.introText2}>Chicago</Text>
@@ -37,7 +36,7 @@ const HomeScreen = (props) => {
           </View>
         </View>
       </View>
-      <Menu style={{ flex: 1 }} />
+      <MenuFilters />
     </SafeAreaView>
   );
 };
