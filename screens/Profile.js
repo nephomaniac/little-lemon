@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 40,
     fontFamily: "Markazi",
-    fontWeight: "bold",
+    //fontWeight: "800",
   },
   inputBox: {
     height: 40,
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontFamily: "Markazi",
     fontSize: 24,
-    fontWeight: "bold",
+    //fontWeight: "normal",
     marginLeft: 20,
     //marginTop: 5,
   },
@@ -476,18 +476,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    fontWeight: "bold",
+    //fontWeight: "800",
     fontSize: 24,
     fontFamily: "Markazi",
   },
   logoutButtonText: {
-    fontWeight: "bold",
+    //fontWeight: "800",
     fontSize: 32,
     fontFamily: "Markazi",
   },
   saveButtonText: {
     color: llColors.secondary3,
-    fontWeight: "bold",
+    //fontWeight: "800",
     fontFamily: "Markazi",
     fontSize: 30,
   },
@@ -518,13 +518,13 @@ const styles = StyleSheet.create({
   },
   avatarButtonText: {
     color: llColors.secondary3,
-    fontWeight: "bold",
+    //fontWeight: "800",
     fontSize: 24,
     fontFamily: "Markazi",
   },
   avPlaceHolderText: {
     color: llColors.primary1,
-    fontWeight: "bold",
+    //fontWeight: "800",
     fontFamily: "Markazi",
     fontSize: 32,
     textShadowOffset: { width: -1, height: 1 },

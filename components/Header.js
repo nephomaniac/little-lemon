@@ -163,11 +163,13 @@ const styles = StyleSheet.create({
   avatarContainer: {
     height: objectSize,
     width: objectSize,
+    margin: 10,
   },
   avImageFrame: {
     height: objectSize,
     width: objectSize,
     borderRadius: objectSize / 2,
+    borderWidth: 0.2,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: llColors.secondary3,

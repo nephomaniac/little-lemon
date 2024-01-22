@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   introMessage: {
     textAlign: "center",
-    fontWeight: "600",
+    //fontWeight: "600",
     fontFamily: "Markazi",
     fontSize: 42,
     color: llColors.primary2,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontSize: 24,
     fontFamily: "Karla",
-    fontWeight: "800",
+    //fontWeight: "800",
     marginTop: 15,
     color: llColors.primary2,
   },
@@ -216,13 +216,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    fontWeight: "bold",
+    //fontWeight: "bold",
     fontFamily: "Karla",
     fontSize: 24,
     color: llColors.primary2,
   },
   buttonTextDisabled: {
-    fontWeight: "bold",
+    //fontWeight: "bold",
     fontFamily: "Karla",
 
     fontSize: 24,

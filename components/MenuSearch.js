@@ -23,7 +23,7 @@ export const MenuSearchInput = (props) => {
 
   useEffect(() => {
     // Use timeout to allow a delay after user stops typing...
-    const timeOutId = setTimeout(() => setQueryString(searchString), 500);
+    const timeOutId = setTimeout(() => setQueryString(searchString), 1000);
     return () => clearTimeout(timeOutId);
   }, [searchString]);
 
@@ -37,6 +37,7 @@ export const MenuSearchInput = (props) => {
           color="black"
         />
         <TextInput
+          clearButtonMode="always"
           style={styles.input}
           placeholder="Search"
           onChangeText={(searchString) => {
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   },
   deliveryText: {
     fontSize: 36,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontFamily: "Markazi",
     margin: 5,
     alignSelf: "flex-start",
@@ -177,14 +178,14 @@ const styles = StyleSheet.create({
   },
   categoryButtonText: {
     fontSize: 24,
-    fontWeight: "bold",
+    //fontWeight: "bold",
     color: llColors.primary1,
     fontFamily: "Markazi",
   },
   categoryButtonTextSelected: {
     color: llColors.secondary3,
     fontSize: 24,
-    fontWeight: "bold",
+    //fontWeight: "bold",
     fontFamily: "Markazi",
   },
 });

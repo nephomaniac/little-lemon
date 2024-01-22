@@ -1,12 +1,5 @@
 import { React } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import { llColors } from "../littleLemonUtils.js";
 import Header from "../components/Header.js";
 import MenuFilters from "../components/MenuSearch.js";
@@ -37,14 +30,16 @@ const styles = StyleSheet.create({
   introText1: {
     fontSize: 36,
     color: llColors.primary2,
-    fontWeight: "bold",
+    fontFamily: "Markazi",
+    //fontWeight: "bold",
     marginTop: 10,
     marginLeft: 20,
   },
   introText2: {
     fontSize: 24,
     color: llColors.secondary3,
-    fontWeight: "bold",
+    //fontWeight: "bold",
+    fontFamily: "Karla",
     marginTop: 5,
     marginLeft: 20,
   },
@@ -56,7 +51,8 @@ const styles = StyleSheet.create({
   introText3: {
     fontSize: 24,
     color: llColors.secondary3,
-    fontWeight: "normal",
+    //fontWeight: "normal",
+    fontFamily: "Karla",
     flexWrap: "wrap",
     marginTop: 5,
     marginLeft: 20,

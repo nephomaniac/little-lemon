@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   introText1: {
     fontSize: 40,
     color: llColors.primary2,
-    fontWeight: "bold",
+    //fontWeight: "bold",
     fontFamily: "Markazi",
     marginTop: 10,
     marginLeft: 20,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   introText2: {
     fontSize: 30,
     color: llColors.secondary3,
-    fontWeight: "bold",
+    //fontWeight: "bold",
     fontFamily: "Markazi",
     marginTop: 5,
     marginLeft: 20,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   introText3: {
     fontSize: 20,
     color: llColors.secondary3,
-    fontWeight: "normal",
+    //fontWeight: "normal",
     fontFamily: "Karla",
     flexWrap: "wrap",
     marginTop: 5,
