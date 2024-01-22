@@ -8,5 +8,3 @@ npx expo start
 note: course menu images content as hosted remotely by the course  are not 100% correct, some missing, some black/blank images, etc..  
 
 
-
-
