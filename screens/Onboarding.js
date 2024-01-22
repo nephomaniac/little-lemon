@@ -95,8 +95,10 @@ const OnBoardingScreen = (props) => {
       <Header hideAvatar={true} />
       <HeroBanner />
       <View style={styles.inputsContainer}>
-        <Text style={styles.inputMessage}>Welcome.</Text>
-        <Text style={styles.inputMessage}>Let us get to know you...</Text>
+        <View style={styles.introContainer}>
+          <Text style={styles.introMessage}>Welcome,</Text>
+          <Text style={styles.introMessage}>let us get to know you...</Text>
+        </View>
         <Text style={styles.inputTitle}>First Name</Text>
         <TextInput
           style={feedBackStyle(() => validateNameInput(), styles.inputBox)}
@@ -156,24 +158,26 @@ const styles = StyleSheet.create({
     flex: 0.8,
     alignItems: "center",
   },
-  inputMessage: {
+  introContainer: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  introMessage: {
     textAlign: "center",
     fontWeight: "600",
-    fontSize: 32,
-    marginTop: 5,
-    marginBottom: 5,
+    fontFamily: "Markazi",
+    fontSize: 42,
     color: llColors.primary2,
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 5,
     textShadowColor: "black",
   },
   inputTitle: {
-    fontSize: 32,
-    marginTop: 10,
+    fontSize: 24,
+    fontFamily: "Karla",
+    fontWeight: "800",
+    marginTop: 15,
     color: llColors.primary2,
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 2,
-    textShadowColor: "black",
   },
   inputTextError: {
     fontSize: 16,
@@ -188,7 +192,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: "80%",
     fontSize: 18,
-    //marginBottom: 20,
     backgroundColor: "white",
   },
   buttonContainer: {
@@ -214,11 +217,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: "bold",
+    fontFamily: "Karla",
     fontSize: 24,
     color: llColors.primary2,
   },
   buttonTextDisabled: {
     fontWeight: "bold",
+    fontFamily: "Karla",
+
     fontSize: 24,
     color: "white",
   },

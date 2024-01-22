@@ -106,7 +106,11 @@ export const Header = (props) => {
         <View style={styles.backButtonContainer}>
           {props.backButton && backButton()}
         </View>
-        <Pressable onPress={() => props.navigation.navigate("Home")}>
+        <Pressable
+          onPress={() => {
+            props.navigation && props.navigation.navigate("Home");
+          }}
+        >
           <Image
             source={require("../assets/Logo.png")}
             style={styles.logoImage}

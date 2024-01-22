@@ -145,8 +145,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   deliveryText: {
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: "bold",
+    fontFamily: "Markazi",
     margin: 5,
     alignSelf: "flex-start",
   },
@@ -175,14 +176,16 @@ const styles = StyleSheet.create({
     backgroundColor: llColors.primary1,
   },
   categoryButtonText: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: llColors.primary1,
+    fontFamily: "Markazi",
   },
   categoryButtonTextSelected: {
     color: llColors.secondary3,
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "Markazi",
   },
 });
 

@@ -353,7 +353,7 @@ const ProfileScreen = (props) => {
         }}
         onPress={handleLogout}
       >
-        <Text style={styles.buttonText}>LOGOUT</Text>
+        <Text style={styles.logoutButtonText}>LOGOUT</Text>
       </Pressable>
 
       <View style={styles.buttonContainer}>
@@ -397,7 +397,8 @@ const styles = StyleSheet.create({
   pageTitle: {
     marginTop: 10,
     marginLeft: 20,
-    fontSize: 24,
+    fontSize: 40,
+    fontFamily: "Markazi",
     fontWeight: "bold",
   },
   inputBox: {
@@ -412,10 +413,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputTitle: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Markazi",
+    fontSize: 24,
+    fontWeight: "bold",
     marginLeft: 20,
-    marginTop: 10,
+    //marginTop: 5,
   },
   inputTextError: {
     fontSize: 16,
@@ -444,7 +446,7 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.4,
     margin: 10,
-    marginTop: 20,
+    marginTop: 10,
     alignItems: "center",
     alignSelf: "center",
     backgroundColor: llColors.primary2,
@@ -476,11 +478,18 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: "bold",
     fontSize: 24,
+    fontFamily: "Markazi",
+  },
+  logoutButtonText: {
+    fontWeight: "bold",
+    fontSize: 32,
+    fontFamily: "Markazi",
   },
   saveButtonText: {
     color: llColors.secondary3,
     fontWeight: "bold",
-    fontSize: 24,
+    fontFamily: "Markazi",
+    fontSize: 30,
   },
   avatarContainer: {
     flex: 0.2,
@@ -510,12 +519,14 @@ const styles = StyleSheet.create({
   avatarButtonText: {
     color: llColors.secondary3,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 24,
+    fontFamily: "Markazi",
   },
   avPlaceHolderText: {
     color: llColors.primary1,
     fontWeight: "bold",
-    fontSize: 24,
+    fontFamily: "Markazi",
+    fontSize: 32,
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
     textShadowColor: "black",

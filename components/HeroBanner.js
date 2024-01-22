@@ -27,22 +27,24 @@ export const HeroBanner = (props) => {
 
 const styles = StyleSheet.create({
   introContainer: {
-    height: 275,
+    height: 250,
     width: "100%",
     backgroundColor: llColors.primary1,
     borderBottomWidth: 0.2,
   },
   introText1: {
-    fontSize: 36,
+    fontSize: 40,
     color: llColors.primary2,
     fontWeight: "bold",
+    fontFamily: "Markazi",
     marginTop: 10,
     marginLeft: 20,
   },
   introText2: {
-    fontSize: 24,
+    fontSize: 30,
     color: llColors.secondary3,
     fontWeight: "bold",
+    fontFamily: "Markazi",
     marginTop: 5,
     marginLeft: 20,
   },
@@ -52,13 +54,14 @@ const styles = StyleSheet.create({
     backgroundColor: llColors.primary1,
   },
   introText3: {
-    fontSize: 24,
+    fontSize: 20,
     color: llColors.secondary3,
     fontWeight: "normal",
+    fontFamily: "Karla",
     flexWrap: "wrap",
     marginTop: 5,
     marginLeft: 20,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   infoImage: {
     flex: 0.5,
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     resizeMode: "cover",
     alignSelf: "flex-start",
-    margin: 20,
+    margin: 5,
     overflow: "hidden",
     borderRadius: 20,
   },
