@@ -18,6 +18,7 @@ import {
   validatePhoneNumber,
   feedBackStyle,
 } from "../littleLemonUtils.js";
+import { Header } from "../components/Header";
 import * as ImagePicker from "expo-image-picker";
 
 const ProfileScreen = (props) => {
@@ -32,7 +33,6 @@ const ProfileScreen = (props) => {
   const [emailSpecialOffers, setEmailSpecialOffers] = useState(true);
   const [avatarImageURI, setAvatarImageURI] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log("ProfileScreen props:" + JSON.stringify(props));
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -48,6 +48,14 @@ const ProfileScreen = (props) => {
     try {
       if (result && result.assets[0].uri) {
         setAvatarImageURI(result.assets[0].uri);
+        try {
+          await AsyncStorage.setItem(
+            "profileAvatarImage",
+            JSON.stringify(result.assets[0].uri) || ""
+          );
+        } catch (error) {
+          console.log("Error saving Avatar URI:" + error);
+        }
       }
     } catch (err) {
       alert("Failed to select image, err:" + err);
@@ -68,13 +76,13 @@ const ProfileScreen = (props) => {
         "emailNewsletter",
       ];
       const values = await AsyncStorage.multiGet(aKeys);
-      console.log("Got stored values:" + JSON.stringify(values));
+      //console.log("Got stored values:" + JSON.stringify(values));
       // convert array of arrays to key val object...
       const data = values.reduce((acc, curr) => {
         acc[curr[0]] = JSON.parse(curr[1]);
         return acc;
       }, {});
-      console.log("Got data:" + JSON.stringify(data));
+      //console.log("Got data:" + JSON.stringify(data));
       //setStoredValues(data);
       setEmail(data.profileEmail);
       setFirstName(data.profileFirstName);
@@ -120,7 +128,6 @@ const ProfileScreen = (props) => {
       );
     } else {
       let avPlaceHolder = "";
-      console.log("firstname:" + firstName + ", lastname:" + lastName);
       try {
         if (firstName && firstName[0]) {
           avPlaceHolder += firstName[0];
@@ -131,7 +138,6 @@ const ProfileScreen = (props) => {
       } catch (err) {
         console.log("error generating avatar text:" + err);
       }
-      console.log("avplaceholder:" + avPlaceHolder);
       return (
         <View style={styles.avImageFrame}>
           <Text style={styles.avPlaceHolderText}>{avPlaceHolder}</Text>
@@ -207,8 +213,17 @@ const ProfileScreen = (props) => {
 */
   return (
     <SafeAreaView style={styles.container}>
+      <Header
+        name="profile"
+        navigation={props.navigation}
+        avatarURI={avatarImageURI}
+        firstName={firstName}
+        lastName={lastName}
+        backButton={() => {
+          props.navigation.navigate("Home");
+        }}
+      />
       <Text style={styles.pageTitle}>Personal Information</Text>
-
       <Text style={styles.inputTitle}>Avatar</Text>
       <View style={styles.avatarContainer}>
         {AvatarImage()}
@@ -358,7 +373,6 @@ const ProfileScreen = (props) => {
           disabled={false}
           style={({ pressed }) => {
             let errs = validateAll();
-
             return [
               styles.saveButton,
               pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
@@ -378,16 +392,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    backgroundColor: "white",
   },
   pageTitle: {
-    marginTop: 20,
-    padding: 10,
+    marginTop: 10,
+    marginLeft: 20,
     fontSize: 24,
     fontWeight: "bold",
   },
   inputBox: {
     height: 40,
-    //width: "80%",
     padding: 5,
     borderWidth: 1,
     borderRadius: 8,
@@ -414,13 +428,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     width: "40%",
     flexDirection: "row",
+    backgroundColor: "white",
   },
   checkbox: {
     alignSelf: "center",
-    shadowOffset: { width: -1, height: 1 },
-    shadowRadius: 1,
-    shadowColor: "black",
-    shadowOpacity: 0.2,
   },
   logoutButton: {
     height: 50,
@@ -444,7 +455,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flex: 1,
     flexDirection: "row",
-    //alignItems: "center",
     padding: "auto",
     justifyContent: "space-around",
   },
@@ -473,12 +483,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   avatarContainer: {
+    flex: 0.2,
     padding: 10,
     marginLeft: 20,
     marginBottom: 30,
     flex: 1,
     flexDirection: "row",
     padding: "auto",
+    backgroundColor: "white",
   },
   avatarButton: {
     height: 40,

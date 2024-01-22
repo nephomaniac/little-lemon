@@ -23,7 +23,7 @@ export const MenuSearchInput = (props) => {
 
   useEffect(() => {
     // Use timeout to allow a delay after user stops typing...
-    const timeOutId = setTimeout(() => setQueryString(searchString), 1000);
+    const timeOutId = setTimeout(() => setQueryString(searchString), 500);
     return () => clearTimeout(timeOutId);
   }, [searchString]);
 
@@ -96,15 +96,8 @@ export const MenuFilters = (props) => {
     }
   };
 
-  /*
-  useEffect(() => {
-    if (props.queryStringCallback) {
-      props.queryStringCallback(filters);
-    }
-  }, [filters]);
-*/
   return (
-    <View style={{ width: "100%", flex: 1 }}>
+    <View>
       <MenuSearchInput queryStringCallback={setNameFilter} />
       <Text style={styles.deliveryText}>ORDER FOR DELIVERY!</Text>
       <View
@@ -118,7 +111,7 @@ export const MenuFilters = (props) => {
         <ScrollView horizontal={true} style={styles.categoryContainer}>
           <CategoryButton category="Starters" onPress={setFilterEnabled} />
           <CategoryButton category="Mains" onPress={setFilterEnabled} />
-          <CategoryButton category="Deserts" onPress={setFilterEnabled} />
+          <CategoryButton category="Desserts" onPress={setFilterEnabled} />
           <CategoryButton category="Drinks" onPress={setFilterEnabled} />
           <CategoryButton category="Specials" onPress={setFilterEnabled} />
         </ScrollView>
@@ -130,7 +123,6 @@ export const MenuFilters = (props) => {
 
 const styles = StyleSheet.create({
   searchSection: {
-    //flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
@@ -145,14 +137,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
-    //flex: 1,
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
     fontStyle: "italic",
     paddingLeft: 0,
     backgroundColor: "white",
-    //color: "",
   },
   deliveryText: {
     fontSize: 24,
@@ -161,8 +151,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   categoryContainer: {
+    flex: 1,
     flexDirection: "row",
-    //borderBottomWidth: 1,
+    backgroundColor: "white",
   },
   categoryButton: {
     flex: 1,

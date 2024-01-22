@@ -2,7 +2,10 @@ import { React, useState, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { llColors } from "../littleLemonUtils.js";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
+const backButton = (props) => {};
+const objectSize = 50;
 export const Header = (props) => {
   const [avatarImageURI, setAvatarImageURI] = useState(null);
   const [firstName, setFirstName] = useState(null);
@@ -16,7 +19,7 @@ export const Header = (props) => {
         "profileAvatarImage",
       ];
       const values = await AsyncStorage.multiGet(aKeys);
-      console.log("Got stored values:" + JSON.stringify(values));
+      //console.log("Got stored values:" + JSON.stringify(values));
       // convert array of arrays to key val object...
       const data = values.reduce((acc, curr) => {
         acc[curr[0]] = JSON.parse(curr[1]);
@@ -30,27 +33,31 @@ export const Header = (props) => {
     }
   };
 
-  const AvatarImage = () => {
-    if (avatarImageURI) {
+  const AvatarImage = (uri) => {
+    if (uri == null) {
+      uri = avatarImageURI;
+    }
+    if (uri) {
       return (
         <View style={styles.avImageFrame}>
-          <Image style={styles.avImageFrame} source={{ uri: avatarImageURI }} />
+          <Image style={styles.avImageFrame} source={{ uri: uri }} />
         </View>
       );
     } else {
       let avPlaceHolder = "";
-      console.log("firstname:" + firstName + ", lastname:" + lastName);
+      let fname = props.firstName || firstName;
+      let lname = props.lastName || lastName;
+      //console.log("firstname:" + firstName + ", lastname:" + lastName);
       try {
-        if (firstName && firstName[0]) {
-          avPlaceHolder += firstName[0];
+        if (fname && fname[0]) {
+          avPlaceHolder += fname[0];
         }
-        if (lastName && lastName[0]) {
-          avPlaceHolder += lastName[0];
+        if (lname && lname[0]) {
+          avPlaceHolder += lname[0];
         }
       } catch (err) {
         console.log("error generating avatar text:" + err);
       }
-      console.log("avplaceholder:" + avPlaceHolder);
       return (
         <View style={styles.avImageFrame}>
           <Text style={styles.avPlaceHolderText}>{avPlaceHolder}</Text>
@@ -60,33 +67,65 @@ export const Header = (props) => {
   };
 
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener("focus", () => {
-      try {
-        updateFromStoredValues();
-      } catch (err) {
-        console.log("Error loading stored values:" + err);
-      }
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
+    if (props.navigation) {
+      const unsubscribe = props.navigation.addListener("focus", () => {
+        try {
+          updateFromStoredValues();
+        } catch (err) {
+          console.log("Error loading stored values:" + err);
+        }
+      });
+      // Return the function to unsubscribe from the event so it gets removed on unmount
+      return unsubscribe;
+    }
   }, [props.navigation]);
 
+  useEffect(() => {
+    try {
+      updateFromStoredValues();
+    } catch (err) {
+      console.log("Error loading stored values:" + err);
+    }
+  }, []);
+
+  const backButton = () => {
+    return (
+      <Pressable onPress={props.backButton} style={styles.backButton}>
+        <Ionicons
+          style={styles.searchIcon}
+          name="arrow-back"
+          size={30}
+          color="white"
+        />
+      </Pressable>
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source={require("../assets/Logo.png")}
-          style={styles.logoImage}
-        />
-        <Pressable
-          disabled={false}
-          style={({ pressed }) => {
-            return [styles.avatarButton, pressed && { opacity: 0.6 }];
-          }}
-          onPress={() => props.navigation.navigate("Profile")}
-        >
-          {AvatarImage()}
+        <View style={styles.backButtonContainer}>
+          {props.backButton && backButton()}
+        </View>
+        <Pressable onPress={() => props.navigation.navigate("Home")}>
+          <Image
+            source={require("../assets/Logo.png")}
+            style={styles.logoImage}
+          />
         </Pressable>
+
+        <View styles={styles.avatarContainer}>
+          {props.hideAvatar || (
+            <Pressable
+              disabled={false}
+              style={({ pressed }) => {
+                return [styles.avImageFrame, pressed && { opacity: 0.6 }];
+              }}
+              onPress={() => props.navigation.navigate("Profile")}
+            >
+              {AvatarImage(props.avatarURI)}
+            </Pressable>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -94,18 +133,19 @@ export const Header = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "10%",
+    //flex: 1,
+    height: 80,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    backgroundColor: llColors.secondary3,
   },
   header: {
     flex: 1,
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    //justifyContent: "auto",
-    backgroundColor: llColors.secondary3,
+    justifyContent: "space-between",
   },
   avPlaceHolderText: {
     color: llColors.primary1,
@@ -114,33 +154,52 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
     textShadowColor: "black",
+    backgroundColor: llColors.secondary3,
+  },
+  avatarContainer: {
+    height: objectSize,
+    width: objectSize,
   },
   avImageFrame: {
-    height: 60,
-    width: 60,
-    //borderWidth: 1,
-    borderRadius: 30,
+    height: objectSize,
+    width: objectSize,
+    borderRadius: objectSize / 2,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "flex-end",
-    //marginRight: 10,
-    //borderColor: "black",
     backgroundColor: llColors.secondary3,
-    shadowOffset: { width: -1, height: 2 },
-    shadowRadius: 3,
+    shadowOffset: { width: -1, height: 3 },
+    shadowRadius: 4,
     shadowColor: "black",
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.4,
+    margin: 10,
   },
   avImage: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: objectSize,
+    width: objectSize,
+    borderRadius: objectSize / 2,
   },
   logoImage: {
-    width: "80%",
-    height: "80%",
+    width: 200,
+    height: 200,
     resizeMode: "contain",
     alignSelf: "center",
+  },
+  backButtonContainer: {
+    width: objectSize,
+    height: objectSize,
+  },
+  backButton: {
+    backgroundColor: llColors.primary1,
+    width: objectSize,
+    height: objectSize,
+    borderRadius: objectSize / 2,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowOffset: { width: -1, height: 3 },
+    shadowRadius: 4,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    margin: 10,
   },
 });
 

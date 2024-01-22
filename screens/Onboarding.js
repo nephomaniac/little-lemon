@@ -2,7 +2,6 @@ import { React, useState, useEffect } from "react";
 import {
   Text,
   View,
-  Image,
   SafeAreaView,
   TextInput,
   StyleSheet,
@@ -15,6 +14,8 @@ import {
   validateName,
   feedBackStyle,
 } from "../littleLemonUtils.js";
+import Header from "../components/Header.js";
+import HeroBanner from "../components/HeroBanner.js";
 
 const OnBoardingScreen = (props) => {
   const [firstName, setFirstName] = useState(null);
@@ -81,16 +82,21 @@ const OnBoardingScreen = (props) => {
     });
   };
 
+  const buttonTextStyle = () => {
+    if (buttonDisabled) {
+      return styles.buttonTextDisabled;
+    } else {
+      return styles.buttonText;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          source={require("../assets/Logo.png")}
-          style={styles.logoImage}
-        />
-      </View>
+      <Header hideAvatar={true} />
+      <HeroBanner />
       <View style={styles.inputsContainer}>
-        <Text style={styles.inputMessage}>Let us get to know you</Text>
+        <Text style={styles.inputMessage}>Welcome.</Text>
+        <Text style={styles.inputMessage}>Let us get to know you...</Text>
         <Text style={styles.inputTitle}>First Name</Text>
         <TextInput
           style={feedBackStyle(() => validateNameInput(), styles.inputBox)}
@@ -114,14 +120,14 @@ const OnBoardingScreen = (props) => {
               styles.buttonNext,
               pressed && {
                 opacity: 0.8,
-                backgroundColor: llColors.primary2D1,
+                backgroundColor: llColors.primary1L1,
               },
               buttonDisabled && { backgroundColor: llColors.disabled },
             ];
           }}
           onPress={handleButton}
         >
-          <Text style={styles.buttonText}>NEXT</Text>
+          <Text style={buttonTextStyle()}>NEXT</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -154,19 +160,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
     fontSize: 32,
-    marginTop: 40,
-    marginBottom: 60,
+    marginTop: 5,
+    marginBottom: 5,
     color: llColors.primary2,
     textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
+    textShadowRadius: 5,
     textShadowColor: "black",
   },
   inputTitle: {
     fontSize: 32,
-    marginTop: 40,
+    marginTop: 10,
     color: llColors.primary2,
     textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
+    textShadowRadius: 2,
     textShadowColor: "black",
   },
   inputTextError: {
@@ -176,17 +182,17 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     borderColor: "black",
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 8,
     padding: 10,
     height: 50,
     width: "80%",
+    fontSize: 18,
     //marginBottom: 20,
     backgroundColor: "white",
   },
   buttonContainer: {
     flex: 0.2,
-    //backgroundColor: "lightgrey",
     backgroundColor: llColors.secondary3,
     alignItems: "flex-end",
     justifyContent: "center",
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "30%",
     borderColor: "black",
-    borderWidth: 2,
+    borderWidth: 0.2,
     borderRadius: 8,
     shadowOffset: { width: -1, height: 1 },
     shadowRadius: 8,
@@ -203,12 +209,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     margin: 40,
     alignItems: "center",
-    backgroundColor: llColors.primary2,
+    backgroundColor: llColors.primary1,
     justifyContent: "center",
   },
   buttonText: {
     fontWeight: "bold",
     fontSize: 24,
+    color: llColors.primary2,
+  },
+  buttonTextDisabled: {
+    fontWeight: "bold",
+    fontSize: 24,
+    color: "white",
   },
 });
 

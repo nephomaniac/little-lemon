@@ -24,9 +24,9 @@ export default function App() {
           acc[curr[0]] = JSON.parse(curr[1]);
           return acc;
         }, {});
-        console.log(
+        /*console.log(
           "Got stored email, firstname values:" + JSON.stringify(data)
-        );
+        );*/
         setIsOnboardingCompleted(
           Boolean(data.profileEmail && data.profileEmail)
         );
@@ -49,7 +49,11 @@ export default function App() {
   console.log("OnboardingComplete?:" + isOnboardingCompleted);
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         {isOnboardingCompleted ? (
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
@@ -66,26 +70,6 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-  /*
-  if (isOnboardingCompleted) {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding">
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }*/
 }
 
 const styles = StyleSheet.create({

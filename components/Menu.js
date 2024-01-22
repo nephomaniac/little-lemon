@@ -6,8 +6,6 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
-  TextInput,
-  Pressable,
 } from "react-native";
 import axios from "axios";
 import * as SQLite from "expo-sqlite";
@@ -48,7 +46,6 @@ export const Menu = (props) => {
 
   const fetchMenuData = async () => {
     console.log("FETCHING MENU FROM REMOTE");
-
     let data = [];
     try {
       result = await axios({ method: "get", url: menuUrl });
@@ -56,30 +53,11 @@ export const Menu = (props) => {
         item["id"] = item.name + index;
         return item;
       });
-      /* for sectionList data format use...
-      let catData = {};
-      result.data.menu.map((curr, index) => {
-        let cat = curr.category || "misc";
-        if (!(cat in catData)) {
-          catData[cat] = { title: cat, data: [] };
-        }
-        if (!("id" in curr)) {
-          curr["id"] = curr.name + index;
-        }
-        catData[cat].data.push(curr);
-      });
-      let data = [];
-      Object.keys(catData).map((cat) => {
-        data.push(catData[cat]);
-      });
-	  */
-      //console.log("Mapped data:" + JSON.stringify(data));
-      //setMenuData(data);
     } catch (err) {
       console.log("Error fetching menudata:" + err);
     } finally {
       setIsLoading(false);
-      console.log("Done fetching remote, returning length:" + data.length);
+      //console.log("Done fetching remote, returning length:" + data.length);
       if (data.length) {
         await writeMenuToDB(data);
       }
@@ -88,14 +66,13 @@ export const Menu = (props) => {
   };
 
   const createDB = async () => {
-    console.log("createDB starting... !!!!!!!!!!!");
     try {
       await db.transactionAsync(async (tx) => {
         await tx.executeSqlAsync("DROP TABLE IF EXISTS menu");
         const cresult = await tx.executeSqlAsync(
           "CREATE TABLE IF NOT EXISTS menu (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, description TEXT, price REAL NOT NULL, category TEXT, image TEXT);"
         );
-        console.log("create menu table result: " + JSON.stringify(cresult));
+        //console.log("create menu table result: " + JSON.stringify(cresult));
       });
     } catch (err) {
       console.log("error creating menu DB table:" + err);
@@ -108,7 +85,7 @@ export const Menu = (props) => {
       // Call back function to execute in transaction...
       (tx) => {
         data.map((item) => {
-          console.log("Writing item: " + JSON.stringify(item));
+          //console.log("Writing item: " + JSON.stringify(item));
           tx.executeSql(
             "INSERT INTO menu (id, name, description, price, category, image) VALUES (?,?,?,?,?,?)", //query
             [
@@ -139,34 +116,29 @@ export const Menu = (props) => {
 
   const SQLFilterString = () => {
     let ret = "";
-    console.log(
-      "****** QUERY build sql, name filter:'" + props.nameFilter + "'"
-    );
-    console.log(
-      "****** QUERY build sql, cat filters:" + JSON.stringify(props.categories)
-    );
     if (props.categories && props.categories.length > 0) {
       props.categories.map((filter, index) => {
         if (index === 0) {
-          ret += ` WHERE (category = '${filter}' `;
+          ret += ` (category = '${filter}' `;
         } else {
           ret += ` OR category = '${filter}' `;
         }
       });
     }
+    if (ret) {
+      ret += " ) ";
+    }
     if (
       typeof props.nameFilter === "string" &&
       props.nameFilter.trim().length !== 0
     ) {
-      if (!ret) {
-        ret += " WHERE ";
-      } else {
-        ret += ") AND ";
+      if (ret) {
+        ret += " AND ";
       }
       ret += ` name LIKE '%${props.nameFilter}%' `;
     }
     if (ret) {
-      ret += " COLLATE NOCASE";
+      ret = " WHERE " + ret + " COLLATE NOCASE";
     }
     console.log("Returning filter query string: '" + ret + "'");
     return ret;
@@ -212,15 +184,10 @@ export const Menu = (props) => {
         console.log("db select transaction success");
       }
     );
-    console.log("Done LOAD MENU from DB done");
     return ret;
   };
 
   const dbMenuQuery = () => {
-    console.log("****** QUERY MENU DB, name filter:" + props.nameFilter);
-    console.log(
-      "****** QUERY MENU DB, cat filters:" + JSON.stringify(props.categories)
-    );
     setCategoryFilters(props.categories);
     setNameFilter(props.nameFilter);
     db.transaction(
@@ -230,7 +197,7 @@ export const Menu = (props) => {
           null,
           //success callback has 2 params: transaction obj, and ResultSet obj...
           (txObj, { rows: { _array } }) => {
-            console.log("Query from DB got:" + JSON.stringify(_array));
+            //console.log("Query from DB got:" + JSON.stringify(_array));
             setMenuData(_array ? _array : []);
             if (!_array || _array.length <= 0) {
               console.log("query db returned empty array");
@@ -252,19 +219,10 @@ export const Menu = (props) => {
   };
 
   useEffect(() => {
-    console.log("-------- props.categories:" + props.categories);
     loadMenuFromDB();
   }, []);
 
-  console.log("loading menu, props.categories:" + props.categories);
-  /* useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql("");
-    });
-  }, [menuFilters]); */
-
   if (isLoading) {
-    console.log("Menu Isloading true");
     return (
       <View style={styles.loadingView}>
         <Text style={styles.loadingText}>Loading Menu Items...</Text>
@@ -272,7 +230,7 @@ export const Menu = (props) => {
       </View>
     );
   }
-  console.log("Menu Isloading false, render menu");
+
   if (
     JSON.stringify(props.categories) != JSON.stringify(categoryFilters) ||
     props.nameFilter !== nameFilter
@@ -280,14 +238,20 @@ export const Menu = (props) => {
     dbMenuQuery();
   }
   return (
-    <View style={{ width: "100%" }}>
+    <View style={styles.menuCardsContainer}>
       <FlatList
         data={menuData}
         renderItem={MenuCard}
         keyExtractor={(item) => item.id}
       />
       {(!menuData || menuData.length <= 0) && (
-        <Text style={{ fontSize: 16, alignSelf: "center" }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "bold",
+            alignSelf: "center",
+          }}
+        >
           No Results To Display
         </Text>
       )}
@@ -306,28 +270,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  menuCardsContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   menuCardContainer: {
-    flex: 1,
-    borderTopWidth: 1,
-    //borderBottomWidth: 1,
+    width: "100%",
+    borderWidth: 0.2,
+    borderRadius: 8,
     flexDirection: "row",
-    alignItems: "flex-start",
-    margin: 5,
-    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   menuCardTextContainer: {
-    flex: 0.7,
+    width: "60%",
     marginLeft: 5,
+    marginTop: 5,
     flexDirection: "column",
   },
   menuCardTitle: {
     margin: 5,
     fontSize: 28,
+    marginLeft: 20,
     fontWeight: "bold",
   },
   menuCardDescription: {
     margin: 5,
-    flex: 1,
+    marginLeft: 20,
     flexWrap: "wrap",
     fontSize: 18,
     color: llColors.secondary4,
@@ -335,19 +305,31 @@ const styles = StyleSheet.create({
   menuCardPrice: {
     margin: 5,
     fontSize: 18,
+    marginLeft: 20,
     fontWeight: "bold",
+    fontStyle: "italic",
     color: llColors.secondary4,
   },
   menuCardImageContainer: {
-    flex: 0.4,
+    width: "40%",
     margin: 5,
+    marginRight: 10,
+    borderRadius: 8,
+    shadowOffset: { width: -1, height: 5 },
+    shadowRadius: 1,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
   },
   menuCardImage: {
     height: 150,
     width: 150,
     resizeMode: "cover",
-    borderWidth: 0.3,
+    //borderWidth: 0.1,
     borderRadius: 8,
+  },
+  menuContainer: {
+    width: "100%",
+    flex: 1,
   },
 });
 

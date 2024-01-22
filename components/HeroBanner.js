@@ -1,38 +1,36 @@
 import { React } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, SafeAreaView } from "react-native";
 import { llColors } from "../littleLemonUtils.js";
-import Header from "../components/Header.js";
-import MenuFilters from "../components/MenuSearch.js";
-import HeroBanner from "../components/HeroBanner.js";
 
-const HomeScreen = (props) => {
+export const HeroBanner = (props) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Header navigation={props.navigation} />
-      <HeroBanner />
-      <View style={{ flex: 1 }}>
-        <MenuFilters />
+    <View style={styles.introContainer}>
+      <View>
+        <Text style={styles.introText1}>Little Lemon</Text>
+        <View style={styles.introInfoContainer}>
+          <View style={{ flex: 0.8 }}>
+            <Text style={styles.introText2}>Chicago</Text>
+            <Text style={styles.introText3}>
+              We are a family owned Mediterranian restaurant, focused on
+              traditional recipes served with a modern twist.
+            </Text>
+          </View>
+          <Image
+            source={require("../assets/Hero_image.png")}
+            style={styles.infoImage}
+          />
+        </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.6,
-    // /alignItems: "center",
-    //justifyContent: "flex-start",
-  },
   introContainer: {
+    height: 275,
     width: "100%",
     backgroundColor: llColors.primary1,
+    borderBottomWidth: 0.2,
   },
   introText1: {
     fontSize: 36,
@@ -74,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default HeroBanner;
