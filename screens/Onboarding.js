@@ -20,7 +20,7 @@ import HeroBanner from "../components/HeroBanner.js";
 const OnBoardingScreen = (props) => {
   const [firstName, setFirstName] = useState(null);
   const [email, setEmail] = useState(null);
-  const [buttonDisabled, setButtonDisabled] = useState("true");
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
 
   const validateNameInput = () => {
