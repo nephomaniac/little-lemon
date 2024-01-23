@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: "Markazi",
     marginLeft: 20,
-    fontWeight: "bold",
+    //fontWeight: "bold",
   },
   menuCardDescription: {
     margin: 5,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     fontSize: 18,
     fontFamily: "Karla",
-    fontWeight: "normal",
+    //fontWeight: "normal",
     color: llColors.secondary4,
   },
   menuCardPrice: {
@@ -310,8 +310,8 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: "Markazi",
     marginLeft: 20,
-    fontWeight: "bold",
-    fontStyle: "italic",
+    //fontWeight: "bold",
+    //fontStyle: "italic",
     color: llColors.secondary4,
   },
   menuCardImageContainer: {
