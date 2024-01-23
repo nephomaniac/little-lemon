@@ -7,6 +7,7 @@ import {
   Pressable,
   Image,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -223,167 +224,180 @@ const ProfileScreen = (props) => {
           props.navigation.navigate("Home");
         }}
       />
-      <Text style={styles.pageTitle}>Personal Information</Text>
-      <Text style={styles.inputTitle}>Avatar</Text>
-      <View style={styles.avatarContainer}>
-        {AvatarImage()}
+      <ScrollView>
+        <Text style={styles.pageTitle}>Personal Information</Text>
+        <Text style={styles.inputTitle}>Avatar</Text>
+        <View style={styles.avatarContainer}>
+          {AvatarImage()}
+          <Pressable
+            disabled={false}
+            style={({ pressed }) => {
+              return [
+                styles.avatarButton,
+                pressed && {
+                  opacity: 0.8,
+                  backgroundColor: llColors.primary1L1,
+                },
+              ];
+            }}
+            onPress={() => pickImage()}
+          >
+            <Text style={styles.avatarButtonText}>Change</Text>
+          </Pressable>
+          <Pressable
+            disabled={false}
+            style={({ pressed }) => {
+              return [
+                styles.avatarButton,
+                pressed && {
+                  opacity: 0.8,
+                  backgroundColor: llColors.primary1L1,
+                },
+              ];
+            }}
+            onPress={() => setAvatarImageURI(null)}
+          >
+            <Text style={styles.avatarButtonText}>Remove</Text>
+          </Pressable>
+        </View>
+
+        <Text style={styles.inputTitle}>First Name</Text>
+        <TextInput
+          placeholder="First Name (required)"
+          value={firstName}
+          onChangeText={setFirstName}
+          style={feedBackStyle(() => validateName(firstName), styles.inputBox)}
+        />
+
+        <Text style={styles.inputTitle}>Last Name</Text>
+        <TextInput
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+          style={styles.inputBox}
+        />
+
+        <Text style={styles.inputTitle}>Email</Text>
+        <TextInput
+          placeholder="Email (required)"
+          value={email}
+          onChangeText={setEmail}
+          style={feedBackStyle(() => validateEmail(email), styles.inputBox)}
+        />
+        <Text style={styles.inputTitle}>Phone Number</Text>
+        <MaskedTextInput
+          mask="(999) 999-9999"
+          onChangeText={(text, rawText) => {
+            //console.log("masked formatted text:" + text);
+            //console.log("rawText: " + rawText);
+            setPhoneNumber(rawText);
+          }}
+          value={phoneNumber}
+          placeholder="(XXX)-XXX-XXXX"
+          style={feedBackStyle(
+            () => validatePhoneNumber(phoneNumber),
+            styles.inputBox
+          )}
+          keyboardType="numeric"
+        />
+        <Pressable
+          style={styles.checkBoxContainer}
+          onPress={() => setEmailNewsletter(!emailNewsletter)}
+        >
+          <Checkbox
+            value={emailNewsletter}
+            onValueChange={setEmailNewsletter}
+            style={styles.checkbox}
+          />
+          <Text style={styles.inputTitle}>NewsLetter</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.checkBoxContainer}
+          onPress={() => setEmailOrderStatus(!emailOrderStatus)}
+        >
+          <Checkbox
+            value={emailOrderStatus}
+            onValueChange={setEmailOrderStatus}
+            style={styles.checkbox}
+          />
+          <Text style={styles.inputTitle}>Order Statuses</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.checkBoxContainer}
+          onPress={() => setEmailPasswordChanges(!emailPasswordChanges)}
+        >
+          <Checkbox
+            value={emailPasswordChanges}
+            onValueChange={setEmailPasswordChanges}
+            style={styles.checkbox}
+          />
+          <Text style={styles.inputTitle}>Password Changes</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.checkBoxContainer}
+          onPress={() => setEmailSpecialOffers(!emailSpecialOffers)}
+        >
+          <Checkbox
+            value={emailSpecialOffers}
+            onValueChange={setEmailSpecialOffers}
+            style={styles.checkbox}
+          />
+          <Text style={styles.inputTitle}>Special Offers</Text>
+        </Pressable>
+
+        <View style={styles.buttonContainer}>
+          <Pressable
+            disabled={false}
+            style={({ pressed }) => {
+              return [
+                styles.saveButton,
+                pressed && {
+                  opacity: 0.8,
+                  backgroundColor: llColors.primary1L1,
+                },
+              ];
+            }}
+            onPress={handleDiscard}
+          >
+            <Text style={styles.saveButtonText}>DISCARD</Text>
+          </Pressable>
+          <Pressable
+            disabled={false}
+            style={({ pressed }) => {
+              let errs = validateAll();
+              return [
+                styles.saveButton,
+                pressed && {
+                  opacity: 0.8,
+                  backgroundColor: llColors.primary1L1,
+                },
+                errs.length > 0 && { backgroundColor: llColors.disabled },
+              ];
+            }}
+            onPress={handleSave}
+          >
+            <Text style={styles.saveButtonText}>SAVE</Text>
+          </Pressable>
+        </View>
         <Pressable
           disabled={false}
           style={({ pressed }) => {
             return [
-              styles.avatarButton,
-              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
+              styles.logoutButton,
+              pressed && {
+                opacity: 0.8,
+                backgroundColor: llColors.primary2Shade1,
+              },
             ];
           }}
-          onPress={() => pickImage()}
+          onPress={handleLogout}
         >
-          <Text style={styles.avatarButtonText}>Change</Text>
+          <Text style={styles.logoutButtonText}>LOGOUT</Text>
         </Pressable>
-        <Pressable
-          disabled={false}
-          style={({ pressed }) => {
-            return [
-              styles.avatarButton,
-              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
-            ];
-          }}
-          onPress={() => setAvatarImageURI(null)}
-        >
-          <Text style={styles.avatarButtonText}>Remove</Text>
-        </Pressable>
-      </View>
-
-      <Text style={styles.inputTitle}>First Name</Text>
-      <TextInput
-        placeholder="First Name (required)"
-        value={firstName}
-        onChangeText={setFirstName}
-        style={feedBackStyle(() => validateName(firstName), styles.inputBox)}
-      />
-
-      <Text style={styles.inputTitle}>Last Name</Text>
-      <TextInput
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-        style={styles.inputBox}
-      />
-
-      <Text style={styles.inputTitle}>Email</Text>
-      <TextInput
-        placeholder="Email (required)"
-        value={email}
-        onChangeText={setEmail}
-        style={feedBackStyle(() => validateEmail(email), styles.inputBox)}
-      />
-      <Text style={styles.inputTitle}>Phone Number</Text>
-      <MaskedTextInput
-        mask="(999) 999-9999"
-        onChangeText={(text, rawText) => {
-          //console.log("masked formatted text:" + text);
-          //console.log("rawText: " + rawText);
-          setPhoneNumber(rawText);
-        }}
-        value={phoneNumber}
-        placeholder="(XXX)-XXX-XXXX"
-        style={feedBackStyle(
-          () => validatePhoneNumber(phoneNumber),
-          styles.inputBox
-        )}
-        keyboardType="numeric"
-      />
-      <Pressable
-        style={styles.checkBoxContainer}
-        onPress={() => setEmailNewsletter(!emailNewsletter)}
-      >
-        <Checkbox
-          value={emailNewsletter}
-          onValueChange={setEmailNewsletter}
-          style={styles.checkbox}
-        />
-        <Text style={styles.inputTitle}>NewsLetter</Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.checkBoxContainer}
-        onPress={() => setEmailOrderStatus(!emailOrderStatus)}
-      >
-        <Checkbox
-          value={emailOrderStatus}
-          onValueChange={setEmailOrderStatus}
-          style={styles.checkbox}
-        />
-        <Text style={styles.inputTitle}>Order Statuses</Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.checkBoxContainer}
-        onPress={() => setEmailPasswordChanges(!emailPasswordChanges)}
-      >
-        <Checkbox
-          value={emailPasswordChanges}
-          onValueChange={setEmailPasswordChanges}
-          style={styles.checkbox}
-        />
-        <Text style={styles.inputTitle}>Password Changes</Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.checkBoxContainer}
-        onPress={() => setEmailSpecialOffers(!emailSpecialOffers)}
-      >
-        <Checkbox
-          value={emailSpecialOffers}
-          onValueChange={setEmailSpecialOffers}
-          style={styles.checkbox}
-        />
-        <Text style={styles.inputTitle}>Special Offers</Text>
-      </Pressable>
-
-      <Pressable
-        disabled={false}
-        style={({ pressed }) => {
-          return [
-            styles.logoutButton,
-            pressed && {
-              opacity: 0.8,
-              backgroundColor: llColors.primary2Shade1,
-            },
-          ];
-        }}
-        onPress={handleLogout}
-      >
-        <Text style={styles.logoutButtonText}>LOGOUT</Text>
-      </Pressable>
-
-      <View style={styles.buttonContainer}>
-        <Pressable
-          disabled={false}
-          style={({ pressed }) => {
-            return [
-              styles.saveButton,
-              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
-            ];
-          }}
-          onPress={handleDiscard}
-        >
-          <Text style={styles.saveButtonText}>DISCARD</Text>
-        </Pressable>
-        <Pressable
-          disabled={false}
-          style={({ pressed }) => {
-            let errs = validateAll();
-            return [
-              styles.saveButton,
-              pressed && { opacity: 0.8, backgroundColor: llColors.primary1L1 },
-              errs.length > 0 && { backgroundColor: llColors.disabled },
-            ];
-          }}
-          onPress={handleSave}
-        >
-          <Text style={styles.saveButtonText}>SAVE</Text>
-        </Pressable>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -397,7 +411,7 @@ const styles = StyleSheet.create({
   pageTitle: {
     marginTop: 10,
     marginLeft: 20,
-    fontSize: 40,
+    fontSize: 32,
     fontFamily: "Markazi",
     //fontWeight: "800",
   },
@@ -414,7 +428,7 @@ const styles = StyleSheet.create({
   },
   inputTitle: {
     fontFamily: "Markazi",
-    fontSize: 24,
+    fontSize: 20,
     //fontWeight: "normal",
     marginLeft: 20,
     //marginTop: 5,
@@ -455,6 +469,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 10,
     marginLeft: 20,
+    marginRight: 20,
     flex: 1,
     flexDirection: "row",
     padding: "auto",
@@ -492,10 +507,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   avatarContainer: {
-    flex: 0.2,
+    flex: 0.15,
     padding: 10,
     marginLeft: 20,
-    marginBottom: 30,
+    marginBottom: 10,
     flex: 1,
     flexDirection: "row",
     padding: "auto",
