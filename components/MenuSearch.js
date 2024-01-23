@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
     fontFamily: "Markazi",
     margin: 5,
     alignSelf: "flex-start",
-    backgroundColor: "white,",
   },
   categoryContainer: {
     flex: 1,
