@@ -98,7 +98,7 @@ export const MenuFilters = (props) => {
   };
 
   return (
-    <View>
+    <View style={{ backgroundColor: "white" }}>
       <MenuSearchInput queryStringCallback={setNameFilter} />
       <Text style={styles.deliveryText}>ORDER FOR DELIVERY!</Text>
       <View
