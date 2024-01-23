@@ -10,7 +10,7 @@ const HomeScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <Header navigation={props.navigation} />
       <HeroBanner />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginBottom: 50 }}>
         <MenuFilters />
       </View>
     </SafeAreaView>
