@@ -98,9 +98,11 @@ export const MenuFilters = (props) => {
   };
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View>
       <MenuSearchInput queryStringCallback={setNameFilter} />
-      <Text style={styles.deliveryText}>ORDER FOR DELIVERY!</Text>
+      <View style={{ backgroundColor: "white" }}>
+        <Text style={styles.deliveryText}>ORDER FOR DELIVERY!</Text>
+      </View>
       <View
         style={{
           justifyContent: "center",
@@ -151,6 +153,7 @@ const styles = StyleSheet.create({
     fontFamily: "Markazi",
     margin: 5,
     alignSelf: "flex-start",
+    backgroundColor: "white,",
   },
   categoryContainer: {
     flex: 1,
